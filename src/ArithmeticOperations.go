@@ -1,4 +1,4 @@
-package main
+package src
 
 /** Computes basic arithmetic */
 type Operation struct{
@@ -8,24 +8,25 @@ type Operation struct{
 func NewOperation(operator string) *Operation {
     p := new(Operation);
     p.operator = operator;
+    return p;
 }
 
-func applyInts(p Operation, x int, y int) int, error {
+func Apply(p *Operation, x int, y int) (int, string) {
     if (p.operator == "+") {
-        return x + y, nil;
+        return x + y, "";
     } else if (p.operator == "-") {
-        return x - y, nil;
+        return x - y, "";
     } else if (p.operator == "*") {
-        return x * y, nil;
+        return x * y, "";
     } else if (p.operator == "/") {
         if (y == 0) {
-            err = "ERROR: Cannot divide by 0";
+            err := "ERROR: Cannot divide by 0";
             return 0, err;
         }
-        return x/y, nil;
+        return x/y, "";
     } else {
         return 0, "ERROR: Invalid operand";
     }
 }
 
-func main() {}
+func main(){}

@@ -21,9 +21,7 @@ func main() {
         if (line == EXIT) {
             break;
         }
-        src.Read(line);
         fmt.Println(src.Read(line));
         fmt.Print(PROMPT);
-        line = reader.Text();
     }
 }

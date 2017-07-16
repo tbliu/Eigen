@@ -1,29 +1,38 @@
 package src
 
 import (
-    "regexp"
+    //"regexp"
     "strings"
+    "strconv"
 )
 
-func Transact(query string) string {
+func transact(query string) string {
     return eval(query);
 }
 
 func eval(query string) string {
-    query = strings.TrimSpace(query);
-    //TODO: Add error handling and create arithmetic operation
-    if (parseArithmetic(query)) {
-        //if (regexp.
-        return "hello";
+    query = strings.Replace(query, " ", "", -1);
+    if (checkPrimitive(query)) {
+        return query;
     }
-    return "goodbye";
+    if (parseArithmetic(query)) {
+        return ApplyArithmetic(query);
+    }
+    return "ERROR: Malformed query";
 }
-// TODO: Regex not properly telling if there is an operator
 // Tests if query contains an arithmetic argument
 func parseArithmetic(query string) bool {
-    matched, err := regexp.MatchString("+|-|*|/", query);
+    matched := strings.ContainsAny(query, "+ & - & * & /");
+    return matched;
+}
+
+// Currently, primitives are defined as integers
+func checkPrimitive(query string) bool {
+    query = strings.TrimSpace(query);
+    _, err := strconv.Atoi(query);
     if (err != nil) {
         return false;
     }
-    return matched;
+    return true;
 }
+

@@ -7,5 +7,5 @@ func NewCalculator() *Calculator {
 }
 
 func Read(query string) string {
-    return Transact(query);
+    return transact(query);
 }

@@ -10,6 +10,7 @@ func transact(query string) string {
     return eval(query);
 }
 
+// Evaluates user input to return
 func eval(query string) string {
     query = strings.Replace(query, " ", "", -1);
     if (checkPrimitive(query)) {
@@ -20,6 +21,7 @@ func eval(query string) string {
     }
     return "ERROR: Malformed query";
 }
+
 // Tests if query contains an arithmetic argument
 func parseArithmetic(query string) bool {
     matched := strings.ContainsAny(query, "+ & - & * & /");

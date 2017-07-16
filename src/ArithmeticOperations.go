@@ -6,9 +6,9 @@ import (
     //"fmt"
 )
 
-const EPSILON = 0.01; // For floating point precision
+/** Computes basic arithmetic. Supports ints as well as 64 bit floats */
 
-/** Computes basic arithmetic */
+// Returns final value for arithmetic operation
 func ApplyArithmetic(query string) string {
     first, operator, second, argErr := findArgs(query);
     if (argErr != "") {
@@ -38,6 +38,7 @@ func ApplyArithmetic(query string) string {
     return err;
 }
 
+// Parses user query to find operands and operator
 func findArgs(query string) (string, string, string, string) {
     if (strings.ContainsAny(query, "+")) {
         args := strings.Split(query, "+");
@@ -70,6 +71,7 @@ func findArgs(query string) (string, string, string, string) {
     return "","","","ERROR: Invalid Number";
 }
 
+// Applies operator for ints
 func applyOperator(operator string, x int, y int) (string, string) {
     if (operator == "+") {
         return strconv.Itoa(x + y), "";
@@ -88,6 +90,7 @@ func applyOperator(operator string, x int, y int) (string, string) {
     }
 }
 
+// Applies operator for floats
 func applyOperatorFloat(operator string, x float64, y float64) (string, string) {
     if (operator == "+") {
         return strconv.FormatFloat(x + y, 'f', 2, 64), "";

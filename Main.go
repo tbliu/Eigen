@@ -23,7 +23,7 @@ func main() {
         } else if (line == "clear") {
             os.Stdout.WriteString(CLEAR);
         } else {
-            fmt.Println(src.Read(line));
+            fmt.Println(src.Transact(line));
         }
         fmt.Print(PROMPT);
     }

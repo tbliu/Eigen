@@ -6,7 +6,7 @@ import (
     //"fmt"
 )
 
-func transact(query string) string {
+func Transact(query string) string {
     return eval(query);
 }
 
@@ -59,10 +59,11 @@ func replaceSubtraction(query string) string {
     if (firstInst != 0 && !strings.ContainsAny(string(query[firstInst - 1]), "+ & * & ~ & /")) {
         query = strings.Replace(query, "-", "~", 1);
         return replaceSubtraction(query);
-    } else if (firstInst == 0) {
+    } else if (firstInst == 0) { // must be a number
         replaced := []string{"-", replaceSubtraction(query[1:len(query)])};
         return strings.Join(replaced, "");
     } else if (strings.ContainsAny(string(query[firstInst - 1]), "+ & * & ~ & /")) {
+        // If prev byte is an operator, current byte must be a number
         replaced := []string{string(query[0]), replaceSubtraction(query[1:len(query)])};
         return strings.Join(replaced, "");
     } else {

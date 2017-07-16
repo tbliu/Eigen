@@ -13,7 +13,7 @@ const PROMPT = "> ";
 const CLEAR = "\x1b[3;J\x1b[H\x1b[2J"; // Clears terminal screen
 
 func main() {
-    fmt.Println("Welcome to Calculator! Type 'exit' to exit. Type 'clear' to clear the screen.");
+    fmt.Println("Welcome to Eigen! Type 'exit' to exit.");
     reader := bufio.NewScanner(os.Stdin);
     fmt.Print(PROMPT);
     for reader.Scan() {

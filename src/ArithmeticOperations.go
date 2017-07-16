@@ -8,6 +8,23 @@ import (
 
 /** Computes basic arithmetic. Supports ints as well as 64 bit floats */
 
+// Returns final value for arithmetic operation for multiple operators
+func ApplyMultipleArithmetic(query string) string {
+    firstOperator := strings.IndexAny(query, "+~/*");
+    if (CountAny(query, "+", "~", "*", "/") == 1) {
+        return ApplyArithmetic(query);
+    }
+    firstArgument := query[0:firstOperator+1];
+    query = query[firstOperator+1:len(query)];
+    secondArgIndex := strings.IndexAny(query, "+~/*");
+    secondArgument := query[0:secondArgIndex];
+    query = query[secondArgIndex:len(query)];
+    totalArgs := []string{firstArgument, secondArgument};
+    result := ApplyArithmetic(strings.Join(totalArgs, ""));
+    newArgs := []string{result, query};
+    return ApplyMultipleArithmetic(strings.Join(newArgs, ""));
+}
+
 // Returns final value for arithmetic operation
 func ApplyArithmetic(query string) string {
     first, operator, second, argErr := findArgs(query);
@@ -42,30 +59,18 @@ func ApplyArithmetic(query string) string {
 func findArgs(query string) (string, string, string, string) {
     if (strings.ContainsAny(query, "+")) {
         args := strings.Split(query, "+");
-        for i := 0; i < len(args); i++ {
-            strings.TrimSpace(args[i]);
-        }
         return args[0], "+", args[1], "";
     }
-    if (strings.ContainsAny(query, "-")) {
-        args := strings.Split(query, "-");
-        for i := 0; i < len(args); i++ {
-            strings.TrimSpace(args[i]);
-        }
+    if (strings.ContainsAny(query, "~")) {
+        args := strings.Split(query, "~");
         return args[0], "-", args[1], "";
     }
     if (strings.ContainsAny(query, "*")) {
         args := strings.Split(query, "*");
-        for i := 0; i < len(args); i++ {
-            strings.TrimSpace(args[i]);
-        }
         return args[0], "*", args[1], "";
     }
     if (strings.ContainsAny(query, "/")) {
         args := strings.Split(query, "/");
-        for i := 0; i < len(args); i++ {
-            strings.TrimSpace(args[i]);
-        }
         return args[0], "/", args[1], "";
     }
     return "","","","ERROR: Invalid Number";
@@ -107,5 +112,4 @@ func applyOperatorFloat(operator string, x float64, y float64) (string, string) 
     } else {
         return "0", "ERROR: Invalid operand";
     }
-
 }

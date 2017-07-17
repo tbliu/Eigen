@@ -1,5 +1,6 @@
 package src
 
+/** Defines the matrix struct  */
 type Matrix struct{
     numRows int;
     numCols int;

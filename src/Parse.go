@@ -19,11 +19,13 @@ func eval(query string) string {
     query = replaceSubtraction(query);
     if (parseArithmetic(query) == 1) {
         return ApplyArithmetic(query);
-    }
-    if (parseArithmetic(query) > 1) {
+    } else if (parseArithmetic(query) > 1) {
         return ApplyMultipleArithmetic(query);
+    } else if (strings.Contains(query, "[[")) {
+        return "";
+    } else {
+        return "ERROR: Malformed query";
     }
-    return "ERROR: Malformed query";
 }
 
 // Tests if query contains an arithmetic argument
@@ -32,13 +34,17 @@ func parseArithmetic(query string) int {
     return matched;
 }
 
-// Currently, primitives are defined as integers
+// Currently, primitives are defined as integers and floats
 func checkPrimitive(query string) bool {
     query = strings.TrimSpace(query);
     _, err := strconv.Atoi(query);
     if (err != nil) {
-        return false;
-    }
+        _, err2 := strconv.ParseFloat(query, 64)
+            if (err2 != nil) {
+                return false;
+            }
+            return true;
+        }
     return true;
 }
 

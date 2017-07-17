@@ -3,8 +3,12 @@ package src
 import (
     "strings"
     "strconv"
+    "regexp"
     //"fmt"
 )
+
+var Variables = make(map[string]Variable);
+var Reserved = []string{"clear", "clean", "exit"};
 
 func Transact(query string) string {
     return eval(query);
@@ -16,8 +20,17 @@ func eval(query string) string {
     if (checkPrimitive(query)) {
         return query;
     }
+    if (isVariable(query)) {
+        val, contains := Variables[query];
+        if (!contains) {
+            return "ERROR: Undefined variable: '" + query + "'";
+        }
+        return Get(val);
+    }
     query = replaceSubtraction(query);
-    if (parseArithmetic(query) == 1) {
+    if (strings.Contains(query, "=")) {
+        return assignVariable(query);
+    } else if (parseArithmetic(query) == 1) {
         return ApplyArithmetic(query);
     } else if (parseArithmetic(query) > 1) {
         return ApplyMultipleArithmetic(query);
@@ -55,8 +68,7 @@ func CountAny(str string, seps ...string) (i int) {
     return i;
 }
 
-// Replaces "-" with "~" as the subtraction operator
-// so as not to confuse subtraction with a negative sign
+// Replaces "-" with "~" as the subtraction operator so as not to confuse subtraction with a negative sign
 func replaceSubtraction(query string) string {
     firstInst := strings.Index(query, "-");
     if (firstInst == -1) {
@@ -75,4 +87,49 @@ func replaceSubtraction(query string) string {
     } else {
         return query;
     }
+}
+
+func isVariable(query string) bool {
+    if (len(query) == 1) {
+        return true;
+    }
+    var letter = regexp.MustCompile(`^[a-zA-Z0-9]+$`).MatchString
+    firstLetter := string(query[0]);
+    if _, err := strconv.Atoi(firstLetter); err == nil {
+        return false; //first letter in a variable cannot be a digit
+    }
+    return letter(query[1:len(query)]);
+}
+
+func assignVariable(query string) string {
+    args := strings.Split(query, "=");
+    if (len(args) > 2) {
+        return "ERROR: Cannot assign more than one variable per statement.";
+    }
+    LHS := args[0];
+    for i := 0; i < len(Reserved); i++ {
+        if (Reserved[i] == LHS) {
+            return "ERROR: " + LHS + " cannot be used as a variable name"
+        }
+    }
+    RHS := args[1];
+    if (!isVariable(LHS)) {
+        return "ERROR: Invalid variable name: '" + LHS + "'";
+    }
+    RHS = eval(RHS);
+    ans, err1 := strconv.Atoi(RHS);
+    if (err1 != nil) {
+        ans1, err2 := strconv.ParseFloat(RHS, 64);
+        if (err2 != nil) {
+            //TODO: Check if RHS is a matrix
+            return "ERROR: Cannot assign variable " + LHS + " to value.";
+        } else {
+            v := NewVariable("float", 0, ans1, nil);
+            Variables[LHS] = v;
+        }
+    } else {
+        v := NewVariable("int", ans, 0, nil);
+        Variables[LHS] = v;
+    }
+    return "";
 }

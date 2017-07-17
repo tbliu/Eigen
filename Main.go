@@ -11,6 +11,7 @@ import (
 const EXIT = "exit";
 const PROMPT = "> ";
 const CLEAR = "\x1b[3;J\x1b[H\x1b[2J"; // Clears terminal screen
+const CLEAN = "clean";
 
 func main() {
     fmt.Println("Welcome to Eigen! Type 'exit' to exit.");
@@ -22,8 +23,15 @@ func main() {
             break;
         } else if (line == "clear") {
             os.Stdout.WriteString(CLEAR);
+        } else if (line == CLEAN) {
+            src.Clean();
         } else {
-            fmt.Println(src.Transact(line));
+            result := src.Transact(line);
+            if (result == "") {
+                fmt.Print(result)
+            } else {
+                fmt.Println(result);
+            }
         }
         fmt.Print(PROMPT);
     }

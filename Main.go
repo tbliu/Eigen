@@ -12,9 +12,10 @@ const EXIT = "exit";
 const PROMPT = "> ";
 const CLEAR = "\x1b[3;J\x1b[H\x1b[2J"; // Clears terminal screen
 const CLEAN = "clean";
+const WELCOME = "___________________\n< Welcome to Eigen! >\n-------------------\n       \\   ^__^\n        \\  (oo)\\_______\n           (__)\\       )\\/\\\n               ||----w |\n               ||     ||"
 
 func main() {
-    fmt.Println("Welcome to Eigen! Type 'exit' to exit.");
+    fmt.Println(WELCOME);
     reader := bufio.NewScanner(os.Stdin);
     fmt.Print(PROMPT);
     for reader.Scan() {
@@ -25,6 +26,8 @@ func main() {
             os.Stdout.WriteString(CLEAR);
         } else if (line == CLEAN) {
             src.Clean();
+        } else if (len(line) == 0) {
+            fmt.Print("");
         } else {
             result := src.Transact(line);
             if (result == "") {

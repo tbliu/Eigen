@@ -15,7 +15,7 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
   
 ### Variable assignment
 1. Use `=` to assign a variable to a value.
-2. Valid values are: `int, float, matrix`
+2. Valid value types are: `int, float, matrix`
 3. Variable names follow traditional rules:
   * The first character cannot be a number
   * All other characters can be either numbers or letters

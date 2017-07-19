@@ -4,7 +4,7 @@ import (
     "regexp"
     "strconv"
     "strings"
-    "fmt"
+    //"fmt"
 )
 
 /** General file for miscellaneous commands */
@@ -41,7 +41,22 @@ func assignVariable(query string) string {
     if (equalIndex + 1 >= len(query)) {
         return "ERROR: Malformed query";
     }
-    RHS := Transact(query[equalIndex+1:len(query)]);
+    RHS := query[equalIndex+1:len(query)];
+    isMatrix := queryToValues(RHS);
+    if (isMatrix != nil) {
+        matrix, errMatrix := NewMatrix(isMatrix);
+        if (errMatrix != "") {
+            return errMatrix;
+        }
+        v := NewVariable("matrix", 0, 0, matrix);
+        LHS := query[0:equalIndex];
+        if (!IsVariable(LHS)) {
+            return "ERROR: Invalid variable name: '" + LHS + "'";
+        }
+        Variables[LHS] = v;
+        return "";
+    }
+    RHS = Transact(RHS);
     query = query[0:equalIndex+1];
     newQuery := []string{query, RHS};
     query = strings.Join(newQuery, "");

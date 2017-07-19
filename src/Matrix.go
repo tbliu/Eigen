@@ -40,7 +40,8 @@ func validate(values [][]float64) bool {
 }
 
 func queryToValues(query string) [][]float64 {
-    query = query[1:len(query)-1]; // remove [ and ] from query
+    query = strings.Replace(query, "[", "", -1);
+    query = strings.Replace(query, "]", "", -1);
     rows := strings.Split(query, ";");
     values := make([][]float64, len(rows));
     for i := 0; i < len(values); i++ {

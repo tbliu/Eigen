@@ -34,8 +34,13 @@ func eval(query string) string {
         return ApplyArithmetic(query);
     } else if (parseArithmetic(query) > 1) {
         return ApplyMultipleArithmetic(query);
-    } else if (strings.Contains(query, "[[")) {
-        return "";
+    } else if (string(query[0]) == "[") {
+        rows := queryToValues(query);
+        matrix, err := NewMatrix(rows);
+        if (err != "") {
+            return err;
+        }
+        return Print(matrix);
     } else {
         return "ERROR: Malformed query";
     }

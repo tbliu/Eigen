@@ -4,6 +4,7 @@ import (
     "regexp"
     "strconv"
     "strings"
+    "fmt"
 )
 
 /** General file for miscellaneous commands */
@@ -58,6 +59,7 @@ func assignVariable(query string) string {
     if (!IsVariable(LHS)) {
         return "ERROR: Invalid variable name: '" + LHS + "'";
     }
+    //TODO: Figure out how to assign RHS to a matrix
     RHS = eval(RHS);
     ans, err1 := strconv.Atoi(RHS);
     if (err1 != nil) {

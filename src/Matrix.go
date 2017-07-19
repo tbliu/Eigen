@@ -1,5 +1,10 @@
 package src
 
+import (
+    "strings"
+    "strconv"
+)
+
 /** Defines the matrix struct  */
 type Matrix struct{
     M int; // defines number of rows (dimension in R^M)
@@ -9,6 +14,7 @@ type Matrix struct{
 }
 
 func NewMatrix(values [][]float64) (*Matrix, string) {
+    //fmt.Println(values);
     if (!validate(values)) {
         return nil, "ERROR: Dimensions of matrix must match.";
     }
@@ -21,7 +27,7 @@ func NewMatrix(values [][]float64) (*Matrix, string) {
 }
 
 func validate(values [][]float64) bool {
-    if (len(values) <= 0) {
+    if (values == nil || len(values) <= 0) {
         return false;
     }
     numElements := len(values[0]);
@@ -31,6 +37,33 @@ func validate(values [][]float64) bool {
         }
     }
     return true;
+}
+
+func queryToValues(query string) [][]float64 {
+    query = query[1:len(query)-1]; // remove [ and ] from query
+    rows := strings.Split(query, ";");
+    values := make([][]float64, len(rows));
+    for i := 0; i < len(values); i++ {
+        row := rowToValues(rows[i]);
+        if (row == nil) {
+            return nil
+        }
+        values[i] = row;
+    }
+    return values;
+}
+
+func rowToValues(row string) []float64 {
+    indivNums := strings.Split(row, ",");
+    values := make([]float64, len(indivNums));
+    for i := 0; i < len(values); i++ {
+        val, err := strconv.ParseFloat(string(indivNums[i]), 64);
+        if (err != nil) {
+            return nil;
+        }
+        values[i] = val;
+    }
+    return values;
 }
 
 func valsToCols(values [][]float64) [][]float64 {

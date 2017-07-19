@@ -11,8 +11,16 @@ func Clean() {
     Variables = make(map[string]Variable);
 }
 
-func isVariable(query string) bool {
+func IsVariable(query string) bool {
     if (len(query) == 1) {
+        _, errInt := strconv.Atoi(query);
+        if (errInt == nil) {
+            return false;
+        }
+        _, errFloat := strconv.ParseFloat(query, 64);
+        if (errFloat == nil) {
+            return false;
+        }
         return true;
     }
     var letter = regexp.MustCompile(`^[a-zA-Z0-9]+$`).MatchString
@@ -24,9 +32,21 @@ func isVariable(query string) bool {
 }
 
 func assignVariable(query string) string {
+    count := strings.Count(query, "=");
+    if (count > 1) {
+        return "ERROR: Cannot have more than one '=' per statement";
+    }
+    equalIndex := strings.Index(query, "=");
+    if (equalIndex + 1 >= len(query)) {
+        return "ERROR: Malformed query";
+    }
+    RHS := Transact(query[equalIndex+1:len(query)]);
+    query = query[0:equalIndex+1];
+    newQuery := []string{query, RHS};
+    query = strings.Join(newQuery, "");
     args := strings.Split(query, "=");
-    if (len(args) > 2) {
-        return "ERROR: Cannot assign more than one variable per statement.";
+    if (len(args) < 2) {
+        return "ERROR: Malformed query";
     }
     LHS := args[0];
     for i := 0; i < len(Reserved); i++ {
@@ -34,8 +54,8 @@ func assignVariable(query string) string {
             return "ERROR: " + LHS + " cannot be used as a variable name"
         }
     }
-    RHS := args[1];
-    if (!isVariable(LHS)) {
+    RHS = args[1];
+    if (!IsVariable(LHS)) {
         return "ERROR: Invalid variable name: '" + LHS + "'";
     }
     RHS = eval(RHS);
@@ -55,3 +75,4 @@ func assignVariable(query string) string {
     }
     return "";
 }
+

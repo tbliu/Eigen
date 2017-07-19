@@ -59,18 +59,74 @@ func ApplyArithmetic(query string) string {
 func findArgs(query string) (string, string, string, string) {
     if (strings.ContainsAny(query, "+")) {
         args := strings.Split(query, "+");
+        if (IsVariable(args[0])) {
+            if (Defined(args[0])) {
+                args[0] = ToString(Variables[args[0]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[0] + "'";
+            }
+        }
+        if (IsVariable(args[1])) {
+            if (Defined(args[1])) {
+                args[1] = ToString(Variables[args[1]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[1] + "'";
+            }
+        }
         return args[0], "+", args[1], "";
     }
     if (strings.ContainsAny(query, "~")) {
         args := strings.Split(query, "~");
+        if (IsVariable(args[0])) {
+            if (Defined(args[0])) {
+                args[0] = ToString(Variables[args[0]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[0] + "'";
+            }
+        }
+        if (IsVariable(args[1])) {
+            if (Defined(args[1])) {
+                args[1] = ToString(Variables[args[1]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[1] + "'";
+            }
+        }
         return args[0], "-", args[1], "";
     }
     if (strings.ContainsAny(query, "*")) {
         args := strings.Split(query, "*");
+        if (IsVariable(args[0])) {
+            if (Defined(args[0])) {
+                args[0] = ToString(Variables[args[0]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[1] + "'";
+            }
+        }
+        if (IsVariable(args[1])) {
+            if (Defined(args[1])) {
+                args[1] = ToString(Variables[args[1]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[1] + "'";
+            }
+        }
         return args[0], "*", args[1], "";
     }
     if (strings.ContainsAny(query, "/")) {
         args := strings.Split(query, "/");
+        if (IsVariable(args[0])) {
+            if (Defined(args[0])) {
+                args[0] = ToString(Variables[args[0]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[0] + "'";
+            }
+        }
+        if (IsVariable(args[1])) {
+            if (Defined(args[1])) {
+                args[1] = ToString(Variables[args[1]]);
+            } else {
+                return "","","","ERROR: Invalid variable '" + args[0] + "'";
+            }
+        }
         return args[0], "/", args[1], "";
     }
     return "","","","ERROR: Invalid Number";

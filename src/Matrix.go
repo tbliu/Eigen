@@ -2,8 +2,8 @@ package src
 
 /** Defines the matrix struct  */
 type Matrix struct{
-    numRows int;
-    numCols int;
+    M int; // defines number of rows (dimension in R^M)
+    N int; // defines number of cols (dimension in R^N)
     rows [][]float64;
     cols [][]float64;
 }
@@ -15,8 +15,8 @@ func NewMatrix(values [][]float64) (*Matrix, string) {
     m := new(Matrix);
     m.rows = values;
     m.cols = valsToCols(values);
-    m.numRows = len(m.rows);
-    m.numCols = len(m.cols);
+    m.M = len(m.rows);
+    m.N = len(m.cols);
     return m, "";
 }
 

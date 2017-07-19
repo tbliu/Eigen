@@ -20,7 +20,7 @@ func eval(query string) string {
     if (checkPrimitive(query)) {
         return query;
     }
-    if (isVariable(query)) {
+    if (IsVariable(query)) {
         val, contains := Variables[query];
         if (!contains) {
             return "ERROR: Undefined variable: '" + query + "'";

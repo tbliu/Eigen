@@ -30,3 +30,18 @@ func Get(v Variable) string {
         return strconv.FormatFloat(v.floatVal, 'f', 2, 64);
     }
 }
+
+func ToString(v Variable) string {
+    if (v.class == "int") {
+        return strconv.Itoa(v.intVal);
+    } else if (v.class == "float") {
+        return strconv.FormatFloat(v.floatVal, 'f', 2, 64);
+    } else {
+        return Print(v.matrix);
+    }
+}
+
+func Defined(name string) bool {
+    _, matched := Variables[name];
+    return matched;
+}

@@ -29,8 +29,13 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
     3. Rows are separated by `;`
     4. Use `]` to denote the end of the end of the matrix.
 2. Example:
-    * `[1, 2; -3, 1]` creates the matrix:
-        ![alt text](https://github.com/tbliu/Eigen/blob/master/images/matrix_example.png "Matrix 1");
+    * `[1, 2; -3, 1]` creates the matrix: <br />
+    ![alt text](https://github.com/tbliu/Eigen/blob/master/images/matrix_example.png "Matrix 1");
+3. You can also assign matrices to variables: 
+    * `x = [1, 2; -3, 1]` creates the same matrix as above, and assigns it to the variable `x`.
+    
+### Matrix Operations
+Coming soon!
 
 ### Modular arithmetic operations
 Coming soon!

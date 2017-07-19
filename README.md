@@ -22,8 +22,15 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
   * Variables are case sensitive 
 4. `exit, clear, clean` are all reserved key words and cannot be used as variables
 
-### Matrix operations
-Coming soon!
+### Matrices
+1. To declare a matrix:
+    1. Use `[` to denote the beginning of the matrix.
+    2. Elements within a row are separated by a `,`
+    3. Rows are separated by `;`
+    4. Use `]` to denote the end of the end of the matrix.
+2. Example:
+    * `[1, 2; -3, 1]` creates the matrix:
+        ![alt text](https://github.com/tbliu/Eigen/blob/master/images/matrix_example.png "Matrix 1");
 
 ### Modular arithmetic operations
 Coming soon!

@@ -67,6 +67,7 @@ func rowToValues(row string) []float64 {
     return values;
 }
 
+// Turns rows into columns
 func valsToCols(values [][]float64) [][]float64 {
     cols := make([][]float64, len(values[0]));
     for i := range cols {

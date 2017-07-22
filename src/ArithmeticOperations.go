@@ -61,14 +61,18 @@ func findArgs(query string) (string, string, string, string) {
         args := strings.Split(query, "+");
         if (IsVariable(args[0])) {
             if (Defined(args[0])) {
-                args[0] = ToString(Variables[args[0]]);
+                if (Variables[args[0]].class != "matrix") {
+                    args[0] = ToString(Variables[args[0]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[0] + "'";
             }
         }
         if (IsVariable(args[1])) {
             if (Defined(args[1])) {
-                args[1] = ToString(Variables[args[1]]);
+                if (Variables[args[1]].class != "matrix") {
+                    args[1] = ToString(Variables[args[1]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[1] + "'";
             }
@@ -79,14 +83,18 @@ func findArgs(query string) (string, string, string, string) {
         args := strings.Split(query, "~");
         if (IsVariable(args[0])) {
             if (Defined(args[0])) {
-                args[0] = ToString(Variables[args[0]]);
+                if (Variables[args[0]].class != "matrix") {
+                    args[0] = ToString(Variables[args[0]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[0] + "'";
             }
         }
         if (IsVariable(args[1])) {
             if (Defined(args[1])) {
-                args[1] = ToString(Variables[args[1]]);
+                if (Variables[args[1]].class != "matrix") {
+                    args[1] = ToString(Variables[args[1]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[1] + "'";
             }
@@ -97,14 +105,18 @@ func findArgs(query string) (string, string, string, string) {
         args := strings.Split(query, "*");
         if (IsVariable(args[0])) {
             if (Defined(args[0])) {
-                args[0] = ToString(Variables[args[0]]);
+                if (Variables[args[0]].class != "matrix") {
+                    args[0] = ToString(Variables[args[0]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[1] + "'";
             }
         }
         if (IsVariable(args[1])) {
             if (Defined(args[1])) {
-                args[1] = ToString(Variables[args[1]]);
+                if (Variables[args[1]].class != "matrix") {
+                    args[1] = ToString(Variables[args[1]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[1] + "'";
             }
@@ -115,14 +127,18 @@ func findArgs(query string) (string, string, string, string) {
         args := strings.Split(query, "/");
         if (IsVariable(args[0])) {
             if (Defined(args[0])) {
-                args[0] = ToString(Variables[args[0]]);
+                if (Variables[args[0]].class != "matrix") {
+                    args[0] = ToString(Variables[args[0]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[0] + "'";
             }
         }
         if (IsVariable(args[1])) {
             if (Defined(args[1])) {
-                args[1] = ToString(Variables[args[1]]);
+                if (Variables[args[1]].class != "matrix") {
+                    args[1] = ToString(Variables[args[1]]);
+                }
             } else {
                 return "","","","ERROR: Invalid variable '" + args[0] + "'";
             }

@@ -40,6 +40,9 @@ func validate(values [][]float64) bool {
 }
 
 func queryToValues(query string) [][]float64 {
+    if (!strings.Contains(query, "[") || !strings.Contains(query, "]")) {
+        return nil;
+    }
     query = strings.Replace(query, "[", "", -1);
     query = strings.Replace(query, "]", "", -1);
     rows := strings.Split(query, ";");

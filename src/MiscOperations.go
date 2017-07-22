@@ -32,6 +32,47 @@ func IsVariable(query string) bool {
     return letter(query[1:len(query)]);
 }
 
+func IsMatrix(query string) (*Matrix, bool) {
+    if IsVariable(query) {
+        v, match := Variables[query];
+        if (!match) {
+            return nil, false;
+        } else if (v.class == "matrix") {
+            return v.matrix, true;
+        } else {
+            return nil, false;
+        }
+    } else if (string(query[0]) == "[") {
+        rows := queryToValues(query);
+        matrix, err := NewMatrix(rows);
+        if (err != "") {
+            return nil, false;
+        }
+        return matrix, true;
+    } else {
+        return nil, false;
+    }
+}
+
+// checks of query contains a matrix literal or variable
+func containsMatrix(query string) bool {
+    _, match := IsMatrix(query);
+    if (match) {
+        return true;
+    }
+    f := func(c rune) bool {
+        return c == '+' || c == '~' || c == '*' || c == '/';
+    }
+    split := strings.FieldsFunc(query, f);
+    for i := 0; i < len(split); i++ {
+        _, match = IsMatrix(split[i]);
+        if (match) {
+            return true;
+        }
+    }
+    return false;
+}
+
 func assignVariable(query string) string {
     count := strings.Count(query, "=");
     if (count > 1) {
@@ -42,12 +83,8 @@ func assignVariable(query string) string {
         return "ERROR: Malformed query";
     }
     RHS := query[equalIndex+1:len(query)];
-    isMatrix := queryToValues(RHS);
-    if (isMatrix != nil) {
-        matrix, errMatrix := NewMatrix(isMatrix);
-        if (errMatrix != "") {
-            return errMatrix;
-        }
+    matrix, isMatrix := IsMatrix(RHS);
+    if (isMatrix) {
         v := NewVariable("matrix", 0, 0, matrix);
         LHS := query[0:equalIndex];
         if (!IsVariable(LHS)) {
@@ -74,13 +111,11 @@ func assignVariable(query string) string {
     if (!IsVariable(LHS)) {
         return "ERROR: Invalid variable name: '" + LHS + "'";
     }
-    //TODO: Figure out how to assign RHS to a matrix
     RHS = eval(RHS);
     ans, err1 := strconv.Atoi(RHS);
     if (err1 != nil) {
         ans1, err2 := strconv.ParseFloat(RHS, 64);
         if (err2 != nil) {
-            //TODO: Check if RHS is a matrix
             return "ERROR: Cannot assign variable " + LHS + " to value.";
         } else {
             v := NewVariable("float", 0, ans1, nil);
@@ -92,4 +127,3 @@ func assignVariable(query string) string {
     }
     return "";
 }
-

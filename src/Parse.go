@@ -3,7 +3,6 @@ package src
 import (
     "strings"
     "strconv"
-    //"regexp"
     //"fmt"
 )
 
@@ -17,6 +16,7 @@ func Transact(query string) string {
 // Evaluates user input to return
 func eval(query string) string {
     query = strings.Replace(query, " ", "", -1);
+    query = replaceSubtraction(query);
     if (checkPrimitive(query)) {
         return query;
     }
@@ -27,9 +27,16 @@ func eval(query string) string {
         }
         return Get(val);
     }
-    query = replaceSubtraction(query);
     if (strings.Contains(query, "=")) {
         return assignVariable(query);
+    } else if (containsMatrix(query)) {
+        numArgs := parseArithmetic(query);
+        if (numArgs == 1) {
+            _, str := ApplyMatrixOperation(query);
+            return str;
+        } else {
+            return ApplyMultipleMatrixOperations(query);
+        }
     } else if (parseArithmetic(query) == 1) {
         return ApplyArithmetic(query);
     } else if (parseArithmetic(query) > 1) {

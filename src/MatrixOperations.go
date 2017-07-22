@@ -2,13 +2,79 @@ package src
 
 import (
     "strconv"
+    //"fmt"
 )
 
 /** Defines operations for matrices */
 
+
+/************** Begin parser for matrix **************/
+func ApplyMatrixOperation(query string) (*Matrix, string) {
+    first, operator, second, argErr := findArgs(query);
+    if (argErr != "") {
+        return nil, argErr;
+    }
+    f1, f := IsMatrix(first);
+    s1, s := IsMatrix(second);
+    if (f && s) {
+        if (operator == "+") {
+            x := addMatrices(f1, s1);
+            return x, Print(x);
+        } else if (operator == "~" || operator == "-") {
+            x := subtractMatrices(f1, s1);
+            return x, Print(x);
+        } else if (operator == "*") {
+            x := mulMatrices(f1, s1);
+            return x, Print(x);
+        } else {
+            return nil, "ERROR: Cannot divide matrices";
+        }
+    } else if (f && !s) {
+        secondValue, err := strconv.ParseFloat(second, 64);
+        if (err != nil) {
+            return nil, "ERROR: Malformed operand";
+        }
+        if (operator == "+") {
+            x := addConstant(f1, secondValue);
+            return x, Print(x);
+        } else if (operator == "~" || operator == "-") {
+            x := subtractConstant(f1, secondValue);
+            return x, Print(x);
+        } else {
+            x := scaleMatrix(f1, secondValue);
+            return x, Print(x);
+        }
+    } else if (!f && s) {
+        firstValue, err := strconv.ParseFloat(first, 64);
+        if (err != nil) {
+            return nil, "ERROR: Malformed operand";
+        }
+        if (operator == "+") {
+            x := addConstant(s1, firstValue);
+            return x, Print(x);
+        } else if (operator == "~" || operator == "-") {
+            x := subtractConstant(s1, firstValue);
+            return x, Print(x);
+        } else {
+            x := scaleMatrix(s1, firstValue);
+            return x, Print(x);
+        }
+    }
+    return nil, "ERROR: Malformed query";
+}
+
+
+func ApplyMultipleMatrixOperations(query string) string {
+    return "";
+}
+
+
+
+/************** Begin basic functionality **************/
+
 func Print(m *Matrix) string {
     if (m == nil) {
-        return "ERROR: Cannot print invalid matrix";
+        return "ERROR: Invalid matrix";
     }
     str := "";
     for i := 0; i < len(m.rows); i++ {
@@ -86,6 +152,10 @@ func addConstant(m *Matrix, a float64) *Matrix {
     return added;
 }
 
+func subtractConstant(m *Matrix, a float64) *Matrix {
+    return addConstant(m, -1*a);
+}
+
 // adds two matrices together
 func addMatrices(m *Matrix, n *Matrix) *Matrix {
     if (m.M != n.M || m.N != n.N) { // matrix dimensions must match
@@ -95,6 +165,20 @@ func addMatrices(m *Matrix, n *Matrix) *Matrix {
     for i := 0; i < len(toReturn.rows); i++ {
         for j := 0; j < len(toReturn.rows[i]); j++ {
             toReturn.rows[i][j] += n.rows[i][j];
+        }
+    }
+    toReturn.cols = valsToCols(toReturn.rows);
+    return toReturn;
+}
+
+func subtractMatrices(m *Matrix, n *Matrix) *Matrix {
+    if (m.M != n.M || m.N != n.N) {
+        return nil;
+    }
+    toReturn := copyMatrix(m);
+    for i := 0; i < len(toReturn.rows); i++ {
+        for j := 0; j < len(toReturn.rows[i]); j++ {
+            toReturn.rows[i][j] -= n.rows[i][j];
         }
     }
     toReturn.cols = valsToCols(toReturn.rows);
@@ -133,9 +217,21 @@ func mulMatrices(m *Matrix, n *Matrix) *Matrix {
     if (m.N != n.M) { // num cols of m must equal num rows of n
         return nil;
     }
-    var entry float64;
     toReturn := zeros(m.M, n.N);
-    for i := 0; i < len(toReturn); i++ {
+    for i := 0; i < len(toReturn.rows); i++ {
+        for j := 0; j < len(toReturn.rows[i]); j++ {
+            toReturn.rows[i][j] = computeEntry(m.rows[i], n.cols[j])
+        }
     }
-    return nil;
+    return toReturn;
+}
+
+// Helper function for mulMatrices. Returns entry (i,j) in matrix
+// by combining the ith row in m and the jth column in n
+func computeEntry(i []float64, j []float64) float64 {
+    entry := 0.0;
+    for k := 0; k < len(i); k++ {
+        entry += i[k] * j[k];
+    }
+    return entry;
 }

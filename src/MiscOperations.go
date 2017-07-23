@@ -88,6 +88,16 @@ func assignVariable(query string) string {
         return "ERROR: Malformed query";
     }
     RHS := query[equalIndex+1:len(query)];
+    if (isFunctionCall(RHS)) {
+        matrix := ApplyFunction(RHS);
+        LHS := query[0:equalIndex];
+        if (!IsVariable(LHS)) {
+            return "ERROR: Invalid variable name: '" + LHS + "'";
+        }
+        v := NewVariable("matrix", 0, 0, matrix);
+        Variables[LHS] = v;
+        return "";
+    }
     if (containsMatrix(RHS)) {
         count := CountAny(query, "+", "~", "-", "*", "/");
         if (count == 0) {

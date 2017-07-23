@@ -39,6 +39,7 @@ func validate(values [][]float64) bool {
     return true;
 }
 
+// converts string to 2D array that can be used to create a matrix
 func queryToValues(query string) [][]float64 {
     if (!strings.Contains(query, "[") || !strings.Contains(query, "]")) {
         return nil;

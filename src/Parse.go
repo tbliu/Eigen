@@ -17,9 +17,11 @@ func Transact(query string) string {
 func eval(query string) string {
     query = strings.Replace(query, " ", "", -1);
     query = replaceSubtraction(query);
+
     if (checkPrimitive(query)) {
         return query;
     }
+
     if (IsVariable(query)) {
         val, contains := Variables[query];
         if (!contains) {
@@ -27,6 +29,16 @@ func eval(query string) string {
         }
         return Get(val);
     }
+
+    if (isFunctionCall(query)) {
+        if (!strings.Contains(query, "=")) {
+            matrix := ApplyFunction(query);
+            return Print(matrix);
+        }
+
+        return assignVariable(query);
+    }
+
     if (containsMatrix(query)) {
         if (string(query[0]) == "[") {
             rows := queryToValues(query);
@@ -37,10 +49,13 @@ func eval(query string) string {
                 return Print(matrix);
             }
         }
+
         if (strings.Contains(query, "=")) {
             return assignVariable(query);
         }
+
         numArgs := parseArithmetic(query);
+
         if (numArgs == 1) {
             _, str := ApplyMatrixOperation(query);
             return str;
@@ -48,6 +63,7 @@ func eval(query string) string {
             _, str := ApplyMultipleMatrixOperations(query);
             return str;
         }
+
     } else if (strings.Contains(query, "=")) {
         return assignVariable(query);
     } else if (parseArithmetic(query) == 1) {

@@ -6,8 +6,7 @@ import (
     //"fmt"
 )
 
-/** Defines operations for matrices */
-
+/** Defines basic operations and helper functions for matrices */
 
 /************** Begin parser for matrix **************/
 func ApplyMatrixOperation(query string) (*Matrix, string) {
@@ -83,8 +82,6 @@ func ApplyMultipleMatrixOperations(query string) (*Matrix, string) {
     newArgs := []string{matrixToString(mat), query};
     return ApplyMultipleMatrixOperations(strings.Join(newArgs, ""));
 }
-
-
 
 /************** Begin basic functionality **************/
 
@@ -199,33 +196,6 @@ func subtractMatrices(m *Matrix, n *Matrix) *Matrix {
     }
     toReturn.cols = valsToCols(toReturn.rows);
     return toReturn;
-}
-
-// creates a matrix of size dim with all zeros. 
-// If len(dim) == 1, create a square matrix of zeros
-// Else create an MxN matrix
-func zeros(dim ...int) *Matrix {
-    if (len(dim) > 2 || len(dim) <= 0) {
-        return nil;
-    }
-    var rows int;
-    var cols int;
-    if (len(dim) == 1) {
-        rows = dim[0];
-        cols = dim[0];
-    } else {
-        rows = dim[0];
-        cols = dim[1];
-    }
-    values := make([][]float64, rows);
-    for i := 0; i < len(values); i++ {
-        values[i] = make([]float64, cols);
-    }
-    mat, err := NewMatrix(values);
-    if (err != "") {
-        return nil;
-    }
-    return mat;
 }
 
 // multiplies two matrices together

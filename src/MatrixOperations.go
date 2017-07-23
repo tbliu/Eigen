@@ -109,25 +109,25 @@ func swap(m *Matrix, a int, b int) {
     m.cols = valsToCols(m.rows);
 }
 
-// scales row i in matrix m by a scale of 'scalar'
-func scaleRow(m *Matrix, i int, scalar float64) {
-    for j := 0; j < len(m.rows[i]); j++ {
-        m.rows[i][j] *= scalar;
+// scales row i by a scale of 'scalar'
+func scaleRow(row []float64, scalar float64) []float64 {
+    newRow := make([]float64, len(row));
+    for j := 0; j < len(newRow); j++ {
+        newRow[j] = row[j] * scalar;
     }
-    m.cols = valsToCols(m.rows);
+    return newRow;
 }
 
 // adds row a and b together and puts the result into row c (which must be either a or b)
-func addRows(m *Matrix, a int, b int, c int) {
-    if (c == a || c == b) {
-        row1 := m.rows[a];
-        row2 := m.rows[b];
-        for i := 0; i < len(row1); i++ {
-            row1[i] += row2[i];
-        }
-        m.rows[c] = row1;
+func addRows(a []float64, b []float64) []float64 {
+    if (len(a) != len(b)) {
+        return nil;
     }
-    m.cols = valsToCols(m.rows);
+    newRow := make([]float64, len(a));
+    for i := 0; i < len(a); i++ {
+        newRow[i] = a[i] + b[i];
+    }
+    return newRow;
 }
 
 func copyMatrix(m *Matrix) *Matrix {

@@ -12,6 +12,7 @@ var Functions = map[string]bool {
     "zeros(" : true,
     "id(" : true,
     "rref(" : true,
+    "transpose(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -52,10 +53,35 @@ func ApplyFunction(query string) *Matrix {
             }
             return zeros(args...);
         case function == "rref":
-            return nil;
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil;
+            }
+            return rref(args);
+        case function == "transpose":
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil;
+            }
+            return transpose(args);
         default:
             return nil;
         }
+}
+
+func paramToMatrix(params string) *Matrix {
+    var args *Matrix = nil;
+    if (IsVariable(params)) {
+        variable := Variables[params];
+        if (variable.class != "matrix") {
+            return nil;
+        }
+        args = variable.matrix;
+    } else {
+        vals := queryToValues(params);
+        args, _ = NewMatrix(vals);
+    }
+    return args;
 }
 
 // splits parameters for variadic functions

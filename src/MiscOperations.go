@@ -13,6 +13,11 @@ func Clean() {
 }
 
 func IsVariable(query string) bool {
+    for i := 0; i < len(Reserved); i++ {
+        if (query == Reserved[i]) {
+            return false;
+        }
+    }
     if (len(query) == 1) {
         _, errInt := strconv.Atoi(query);
         if (errInt == nil) {
@@ -83,15 +88,27 @@ func assignVariable(query string) string {
         return "ERROR: Malformed query";
     }
     RHS := query[equalIndex+1:len(query)];
-    matrix, isMatrix := IsMatrix(RHS);
-    if (isMatrix) {
-        v := NewVariable("matrix", 0, 0, matrix);
-        LHS := query[0:equalIndex];
-        if (!IsVariable(LHS)) {
-            return "ERROR: Invalid variable name: '" + LHS + "'";
+    if (containsMatrix(RHS)) {
+        count := CountAny(query, "+", "~", "-", "*", "/");
+        if (count == 0) {
+            matrix, _ := IsMatrix(RHS);
+            v := NewVariable("matrix", 0, 0, matrix);
+            LHS := query[0:equalIndex];
+            if (!IsVariable(LHS)) {
+                return "ERROR: Invalid variable name: '" + LHS + "'";
+            }
+            Variables[LHS] = v;
+            return "";
+        } else {
+            mat, _ := ApplyMultipleMatrixOperations(RHS);
+            LHS := query[0:equalIndex];
+            if (!IsVariable(LHS)) {
+                return "ERROR: Invalid variable name: '" + LHS + "'";
+            }
+            v := NewVariable("matrix", 0, 0, mat);
+            Variables[LHS] = v;
+            return "";
         }
-        Variables[LHS] = v;
-        return "";
     }
     RHS = Transact(RHS);
     query = query[0:equalIndex+1];
@@ -102,11 +119,6 @@ func assignVariable(query string) string {
         return "ERROR: Malformed query";
     }
     LHS := args[0];
-    for i := 0; i < len(Reserved); i++ {
-        if (Reserved[i] == LHS) {
-            return "ERROR: " + LHS + " cannot be used as a variable name"
-        }
-    }
     RHS = args[1];
     if (!IsVariable(LHS)) {
         return "ERROR: Invalid variable name: '" + LHS + "'";

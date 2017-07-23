@@ -27,27 +27,33 @@ func eval(query string) string {
         }
         return Get(val);
     }
-    if (strings.Contains(query, "=")) {
-        return assignVariable(query);
-    } else if (containsMatrix(query)) {
+    if (containsMatrix(query)) {
+        if (string(query[0]) == "[") {
+            rows := queryToValues(query);
+            matrix, err := NewMatrix(rows);
+            if (err != "") {
+                return err;
+            } else {
+                return Print(matrix);
+            }
+        }
+        if (strings.Contains(query, "=")) {
+            return assignVariable(query);
+        }
         numArgs := parseArithmetic(query);
         if (numArgs == 1) {
             _, str := ApplyMatrixOperation(query);
             return str;
         } else {
-            return ApplyMultipleMatrixOperations(query);
+            _, str := ApplyMultipleMatrixOperations(query);
+            return str;
         }
+    } else if (strings.Contains(query, "=")) {
+        return assignVariable(query);
     } else if (parseArithmetic(query) == 1) {
         return ApplyArithmetic(query);
     } else if (parseArithmetic(query) > 1) {
         return ApplyMultipleArithmetic(query);
-    } else if (string(query[0]) == "[") {
-        rows := queryToValues(query);
-        matrix, err := NewMatrix(rows);
-        if (err != "") {
-            return err;
-        }
-        return Print(matrix);
     } else {
         return "ERROR: Malformed query";
     }

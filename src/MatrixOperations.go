@@ -2,6 +2,7 @@ package src
 
 import (
     "strconv"
+    "strings"
     //"fmt"
 )
 
@@ -64,8 +65,23 @@ func ApplyMatrixOperation(query string) (*Matrix, string) {
 }
 
 
-func ApplyMultipleMatrixOperations(query string) string {
-    return "";
+func ApplyMultipleMatrixOperations(query string) (*Matrix, string) {
+    firstOperator := strings.IndexAny(query, "+~/*");
+    if (CountAny(query, "+", "~", "-", "*", "/") == 1) {
+        return ApplyMatrixOperation(query);
+    }
+    firstArgument := query[0:firstOperator+1];
+    query = query[firstOperator+1:len(query)];
+    secondArgIndex := strings.IndexAny(query, "+~/*");
+    secondArgument := query[0:secondArgIndex];
+    query = query[secondArgIndex:len(query)];
+    totalArgs := []string{firstArgument, secondArgument};
+    mat, str := ApplyMatrixOperation(strings.Join(totalArgs, ""));
+    if (mat == nil) {
+        return mat, str;
+    }
+    newArgs := []string{matrixToString(mat), query};
+    return ApplyMultipleMatrixOperations(strings.Join(newArgs, ""));
 }
 
 
@@ -223,6 +239,7 @@ func mulMatrices(m *Matrix, n *Matrix) *Matrix {
             toReturn.rows[i][j] = computeEntry(m.rows[i], n.cols[j])
         }
     }
+    toReturn.cols = valsToCols(toReturn.rows);
     return toReturn;
 }
 

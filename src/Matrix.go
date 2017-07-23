@@ -83,3 +83,20 @@ func valsToCols(values [][]float64) [][]float64 {
     }
     return cols;
 }
+
+func matrixToString(mat *Matrix) string {
+    str := "[";
+    for i := 0; i < len(mat.rows); i++ {
+        for j := 0; j < len(mat.rows[i]); j++ {
+            str += strconv.FormatFloat(mat.rows[i][j], 'f', -1, 64);
+            if (j < (len(mat.rows[i])) - 1) {
+                str += ",";
+            }
+        }
+        if (i < len(mat.rows) - 1) {
+            str += ";";
+        }
+    }
+    str += "]";
+    return str;
+}

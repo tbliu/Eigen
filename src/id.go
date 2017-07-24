@@ -1,6 +1,6 @@
 package src
 
-/* Creates the NxNidentity matrix */
+/* Creates the NxN identity matrix */
 
 func id(N int) *Matrix {
     vals := make([][]float64, N);

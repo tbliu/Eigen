@@ -77,6 +77,8 @@ func paramToMatrix(params string) *Matrix {
             return nil;
         }
         args = variable.matrix;
+    } else if (isFunctionCall(params)) {
+        args = ApplyFunction(params);
     } else {
         vals := queryToValues(params);
         args, _ = NewMatrix(vals);

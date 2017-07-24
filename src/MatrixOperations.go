@@ -102,11 +102,12 @@ func Print(m *Matrix) string {
 
 // swaps row a and row b of a matrix
 func swap(m *Matrix, a int, b int) {
-    row1 := m.rows[a];
-    temp := m.rows[b];
+    row1 := make([]float64, len(m.rows[a]));
+    row2 := make([]float64, len(m.rows[b]));
+    copy(row1, m.rows[a]);
+    copy(row2, m.rows[b]);
     m.rows[b] = row1;
-    row1 = temp;
-    m.cols = valsToCols(m.rows);
+    m.rows[a] = row2;
 }
 
 // scales row i by a scale of 'scalar'

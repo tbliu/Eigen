@@ -1,7 +1,5 @@
 package src
 
-//import "fmt"
-
 func rref(m *Matrix) *Matrix {
     reduced := copyMatrix(m);
     for i := 0; i < len(reduced.rows); i++ {
@@ -23,8 +21,27 @@ func rref(m *Matrix) *Matrix {
             reduced.rows[j] = newRow;
         }
     }
+    swapRows(reduced);
     reduced.cols = valsToCols(reduced.rows);
     return reduced;
+}
+
+func swapRows(m *Matrix) {
+    for i := 0; i < len(m.rows); i++ {
+        pivotIndex := getPivotIndex(m.rows[i]);
+
+        for j := i; j < len(m.rows); j++ {
+            if (i == j) {
+                continue;
+            }
+
+            otherPivotIndex := getPivotIndex(m.rows[j]);
+            if (pivotIndex > otherPivotIndex && otherPivotIndex != -1) {
+                swap(m, i, j);
+                i = 0;
+            }
+        }
+    }
 }
 
 func invertRow(row []float64) []float64 {
@@ -46,11 +63,3 @@ func getPivotIndex(row []float64) int {
     }
     return -1; // row of zeros -- no pivot
 }
-
-
-/** Notes
-    Figure out swap
-    Round elements a bit so there is no -0 left
-**/
-
-

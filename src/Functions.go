@@ -38,6 +38,9 @@ func getFunctionArgs(query string) (string, string) {
 
 func ApplyFunction(query string) *Matrix {
     function, params := getFunctionArgs(query);
+    if (params == "") {
+        return nil;
+    }
     switch {
         case function == "id":
             params = eval(params);

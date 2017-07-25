@@ -17,7 +17,6 @@ func Transact(query string) string {
 func eval(query string) string {
     query = strings.Replace(query, " ", "", -1);
     query = replaceSubtraction(query);
-
     if (checkPrimitive(query)) {
         return query;
     }
@@ -108,7 +107,7 @@ func replaceSubtraction(query string) string {
     if (firstInst == -1) {
         return query;
     }
-    if (firstInst != 0 && !strings.ContainsAny(string(query[firstInst - 1]), "+ & * & ~ & /")) {
+    if (firstInst != 0 && !strings.ContainsAny(string(query[firstInst - 1]), "+ & * & ~ & / & [ & ; & ,")) {
         query = strings.Replace(query, "-", "~", 1);
         return replaceSubtraction(query);
     } else if (firstInst == 0) { // must be a number

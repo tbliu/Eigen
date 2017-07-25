@@ -1,7 +1,16 @@
 package src
 
+import "math"
+
+/** Computes the row reduced echelon form of a matrix */
+
+const epsilon = 0.005; // rounding factor for floating point precision
+
 func rref(m *Matrix) *Matrix {
     reduced := copyMatrix(m);
+    if (checkIfZeroMatrix(reduced)) {
+        return reduced;
+    }
     for i := 0; i < len(reduced.rows); i++ {
         reduced.rows[i] = invertRow(reduced.rows[i]);
         row := reduced.rows[i];
@@ -22,6 +31,7 @@ func rref(m *Matrix) *Matrix {
         }
     }
     swapRows(reduced);
+    round(reduced);
     reduced.cols = valsToCols(reduced.rows);
     return reduced;
 }
@@ -36,7 +46,7 @@ func swapRows(m *Matrix) {
             }
 
             otherPivotIndex := getPivotIndex(m.rows[j]);
-            if (pivotIndex > otherPivotIndex && otherPivotIndex != -1) {
+            if ((pivotIndex > otherPivotIndex && otherPivotIndex != -1) || pivotIndex == -1) {
                 swap(m, i, j);
                 i = 0;
             }
@@ -62,4 +72,26 @@ func getPivotIndex(row []float64) int {
         }
     }
     return -1; // row of zeros -- no pivot
+}
+
+func checkIfZeroMatrix(m *Matrix) bool {
+    for i := 0; i < len(m.rows); i++ {
+        for j := 0; j < len(m.rows[i]); j++ {
+            if (m.rows[i][j] != 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+// removes -0 literal from matrix
+func round(m *Matrix) {
+    for i := 0; i < len(m.rows); i++ {
+        for j := 0; j < len(m.rows[i]); j++ {
+            if (math.Abs(m.rows[i][j]) < epsilon) {
+                m.rows[i][j] = 0;
+            }
+        }
+    }
 }

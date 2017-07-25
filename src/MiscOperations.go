@@ -99,7 +99,7 @@ func assignVariable(query string) string {
         return "";
     }
     if (containsMatrix(RHS)) {
-        count := CountAny(query, "+", "~", "-", "*", "/");
+        count := CountAny(query, "+", "~", "*", "/");
         if (count == 0) {
             matrix, _ := IsMatrix(RHS);
             v := NewVariable("matrix", 0, 0, matrix);

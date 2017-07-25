@@ -89,7 +89,7 @@ func assignVariable(query string) string {
     }
     RHS := query[equalIndex+1:len(query)];
     if (isFunctionCall(RHS)) {
-        matrix := ApplyFunction(RHS);
+        matrix, _ := ApplyFunction(RHS);
         LHS := query[0:equalIndex];
         if (!IsVariable(LHS)) {
             return "ERROR: Invalid variable name: '" + LHS + "'";

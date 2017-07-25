@@ -204,7 +204,7 @@ func mulMatrices(m *Matrix, n *Matrix) *Matrix {
     if (m.N != n.M) { // num cols of m must equal num rows of n
         return nil;
     }
-    toReturn := zeros(m.M, n.N);
+    toReturn, _ := zeros(m.M, n.N);
     for i := 0; i < len(toReturn.rows); i++ {
         for j := 0; j < len(toReturn.rows[i]); j++ {
             toReturn.rows[i][j] = computeEntry(m.rows[i], n.cols[j])

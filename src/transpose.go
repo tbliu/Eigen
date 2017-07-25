@@ -1,7 +1,7 @@
 package src
 
-func transpose(m *Matrix) *Matrix {
+func transpose(m *Matrix) (*Matrix, string) {
     rows := valsToCols(m.rows);
-    matrix, _ := NewMatrix(rows);
-    return matrix;
+    matrix, err := NewMatrix(rows);
+    return matrix, err;
 }

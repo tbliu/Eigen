@@ -2,7 +2,7 @@ package src
 
 /* Creates the NxN identity matrix */
 
-func id(N int) *Matrix {
+func id(N int) (*Matrix, string) {
     vals := make([][]float64, N);
     for i := 0; i < len(vals); i++ {
         arr := make([]float64, N);
@@ -11,7 +11,7 @@ func id(N int) *Matrix {
     }
     matrix, err := NewMatrix(vals);
     if (err == "") {
-        return matrix;
+        return matrix, "";
     }
-    return nil;
+    return nil, err;
 }

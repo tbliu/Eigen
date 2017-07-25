@@ -36,39 +36,40 @@ func getFunctionArgs(query string) (string, string) {
     return funcName, parameters;
 }
 
-func ApplyFunction(query string) *Matrix {
+func ApplyFunction(query string) (*Matrix, string) {
     function, params := getFunctionArgs(query);
     if (params == "") {
-        return nil;
+        return nil, "ERROR: Must pass in a parameter";
     }
     switch {
         case function == "id":
             params = eval(params);
             i, err := strconv.Atoi(params);
             if (err != nil) {
-                return nil;
+                return nil, "ERROR: Parameter must be an int";
             }
-            return id(i);
+            matrix, e := id(i);
+            return matrix, e;
         case function == "zeros":
             args := splitParams(params);
             if (args == nil) {
-                return nil;
+                return nil, "ERROR: zeros can only take in one or two arguments";
             }
             return zeros(args...);
         case function == "rref":
             args := paramToMatrix(params);
             if (args == nil) {
-                return nil;
+                return nil, "ERROR: Parameter must be a valid matrix";
             }
             return rref(args);
         case function == "transpose":
             args := paramToMatrix(params);
             if (args == nil) {
-                return nil;
+                return nil, "ERROR: Parameter must be a valid matrix";
             }
             return transpose(args);
         default:
-            return nil;
+            return nil, "ERROR: Invalid function call";
         }
 }
 
@@ -81,7 +82,7 @@ func paramToMatrix(params string) *Matrix {
         }
         args = variable.matrix;
     } else if (isFunctionCall(params)) {
-        args = ApplyFunction(params);
+        args, _ = ApplyFunction(params);
     } else {
         vals := queryToValues(params);
         args, _ = NewMatrix(vals);

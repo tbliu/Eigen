@@ -31,7 +31,10 @@ func eval(query string) string {
 
     if (isFunctionCall(query)) {
         if (!strings.Contains(query, "=")) {
-            matrix := ApplyFunction(query);
+            matrix, err := ApplyFunction(query);
+            if (err != "") {
+                return err;
+            }
             return Print(matrix);
         }
 

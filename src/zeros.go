@@ -3,9 +3,9 @@ package src
 // creates a matrix of size dim with all zeros. 
 // If len(dim) == 1, create a square matrix of zeros
 // Else create an MxN matrix
-func zeros(dim ...int) *Matrix {
+func zeros(dim ...int) (*Matrix, string) {
     if (len(dim) > 2 || len(dim) <= 0) {
-        return nil;
+        return nil, "ERROR: The number of parameters must be either one or two";
     }
     var rows int;
     var cols int;
@@ -22,7 +22,7 @@ func zeros(dim ...int) *Matrix {
     }
     mat, err := NewMatrix(values);
     if (err != "") {
-        return nil;
+        return nil, err;
     }
-    return mat;
+    return mat, "";
 }

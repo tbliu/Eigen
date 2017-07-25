@@ -6,10 +6,10 @@ import "math"
 
 const epsilon = 0.005; // rounding factor for floating point precision
 
-func rref(m *Matrix) *Matrix {
+func rref(m *Matrix) (*Matrix, string) {
     reduced := copyMatrix(m);
     if (checkIfZeroMatrix(reduced)) {
-        return reduced;
+        return reduced, "";
     }
     for i := 0; i < len(reduced.rows); i++ {
         reduced.rows[i] = invertRow(reduced.rows[i]);
@@ -33,7 +33,7 @@ func rref(m *Matrix) *Matrix {
     swapRows(reduced);
     round(reduced);
     reduced.cols = valsToCols(reduced.rows);
-    return reduced;
+    return reduced, "";
 }
 
 func swapRows(m *Matrix) {

@@ -12,7 +12,7 @@ func rref(m *Matrix) (*Matrix, string) {
         return reduced, "";
     }
     for i := 0; i < len(reduced.rows); i++ {
-        reduced.rows[i] = invertRow(reduced.rows[i]);
+        reduced.rows[i], _ = invertRow(reduced.rows[i]);
         row := reduced.rows[i];
         pivotIndex := getPivotIndex(row);
         if pivotIndex == -1 {
@@ -54,15 +54,16 @@ func swapRows(m *Matrix) {
     }
 }
 
-func invertRow(row []float64) []float64 {
+// returns the scaled row and the scaling factor
+func invertRow(row []float64) ([]float64, float64) {
     for i := 0; i < len(row); i++ {
         if (row[i] != 0) {
             factor := 1.0/row[i];
             row = scaleRow(row, factor);
-            return row;
+            return row, factor;
         }
     }
-    return row;
+    return row, 1.0;
 }
 
 func getPivotIndex(row []float64) int {
@@ -91,7 +92,10 @@ func round(m *Matrix) {
         for j := 0; j < len(m.rows[i]); j++ {
             if (math.Abs(m.rows[i][j]) < epsilon) {
                 m.rows[i][j] = 0;
+            } else {
+                m.rows[i][j] = float64(int(m.rows[i][j] * 1000)) / 1000; // truncate float to 3 digits
             }
+
         }
     }
 }

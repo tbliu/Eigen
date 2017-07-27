@@ -14,6 +14,8 @@ var Functions = map[string]bool {
     "rref(" : true,
     "transpose(" : true,
     "inv(" : true,
+    "col(" : true,
+    "row(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -75,6 +77,18 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Parameter must be a valid matrix";
             }
             return inv(args);
+        case function == "col":
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil, "ERROR: Parameter must be a valid matrix";
+            }
+            return col(args);
+        case function == "row":
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil, "ERROR: Parameter must be a valid matrix";
+            }
+            return row(args);
         default:
             return nil, "ERROR: Invalid function call";
         }

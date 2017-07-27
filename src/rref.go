@@ -1,6 +1,9 @@
 package src
 
-import "math"
+import (
+    "math"
+)
+
 
 /** Computes the row reduced echelon form of a matrix */
 
@@ -46,7 +49,10 @@ func swapRows(m *Matrix) {
             }
 
             otherPivotIndex := getPivotIndex(m.rows[j]);
-            if ((pivotIndex > otherPivotIndex && otherPivotIndex != -1) || pivotIndex == -1) {
+            if (otherPivotIndex == -1) {
+                continue;
+            }
+            if ((pivotIndex > otherPivotIndex) || (pivotIndex == -1)) {
                 swap(m, i, j);
                 i = 0;
             }

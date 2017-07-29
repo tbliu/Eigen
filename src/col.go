@@ -3,6 +3,9 @@ package src
 /** Returns a matrix B whose columns span the column space of A */
 
 func col(m *Matrix) (*Matrix, string) {
+    if (checkIfZeroMatrix(m)) {
+        return nil, "ERROR: Column space is the zero vector";
+    }
     pivots := getPivotIndices(m);
     numCols := 0;
     for i := 0; i < len(pivots); i++ {

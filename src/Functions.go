@@ -18,6 +18,7 @@ var Functions = map[string]bool {
     "row(" : true,
     "null(": true,
     "Lnull(" : true,
+    "solve(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -103,6 +104,12 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Parameter must be a valid matrix";
             }
             return Lnull(args);
+        case function == "solve":
+            arg1, arg2 := splitMatrices(params);
+            if (arg1 == nil || arg2 == nil) {
+                return nil, "ERROR: Invalid parameters."
+            }
+            return solve(arg1, arg2);
         default:
             return nil, "ERROR: Invalid function call";
         }
@@ -137,4 +144,16 @@ func splitParams(params string) []int {
         args[i] = j;
     }
     return args;
+}
+
+// Splits parameters into two matrices
+func splitMatrices(params string) (*Matrix, *Matrix) {
+    oldArgs := strings.Split(params, ",");
+    if (len(oldArgs) != 2) {
+        return nil, nil;
+    }
+    mat1 := paramToMatrix(oldArgs[0]);
+    mat2 := paramToMatrix(oldArgs[1]);
+    return mat1, mat2;
+
 }

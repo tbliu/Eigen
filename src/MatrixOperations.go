@@ -3,7 +3,7 @@ package src
 import (
     "strconv"
     "strings"
-    //"fmt"
+    "fmt"
 )
 
 /** Defines basic operations and helper functions for matrices */
@@ -222,4 +222,29 @@ func computeEntry(i []float64, j []float64) float64 {
         entry += i[k] * j[k];
     }
     return entry;
+}
+
+// Augments A with b
+func augment(m *Matrix, b *Matrix) (*Matrix, string) {
+    if (b.M != m.M || b.N != 1) {
+        fmt.Println("here");
+        return nil, "ERROR: augmented column must be an Mx1 vector";
+    }
+
+    values := make([][]float64, m.M);
+    index := 0;
+    for i := 0; i < len(m.rows); i++ {
+        arr := make([]float64, m.N + b.N)
+        for j := 0; j < len(m.rows[i]); j++ {
+            arr[j] = m.rows[i][j];
+        }
+        arr[len(arr) - 1] = b.rows[i][0];
+        values[index] = arr;
+        index += 1;
+    }
+    mat, err := NewMatrix(values);
+    if (err != "") {
+        return nil, err;
+    }
+    return mat, "";
 }

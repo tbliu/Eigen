@@ -20,9 +20,9 @@ func null(m *Matrix) (*Matrix, string) {
         return nil, "ERROR: Null space is empty";
     }
     for i := 0; i < len(freeColumns); i++ {
-        arr := make([]float64, m.N);
-        for j := 0; j < len(m.rows); j++ {
-            arr[j] = -1.0 * m.rows[j][freeColumns[i]];
+        arr := make([]float64, reduced.N);
+        for j := 0; j < len(reduced.rows); j++ {
+            arr[j] = -1.0 * reduced.rows[j][freeColumns[i]];
         }
         arr[freeColumns[i]] = 1;
         values[index] = arr;

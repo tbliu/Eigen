@@ -6,7 +6,7 @@ import (
     //"fmt"
 )
 
-/** Lists all user-callable functions */
+/** Lists all user-callable functions that return matrices */
 
 var Functions = map[string]bool {
     "zeros(" : true,

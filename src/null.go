@@ -4,14 +4,21 @@ package src
 
 func null(m *Matrix) (*Matrix, string) {
     reduced, _ := rref(m);
-    if (checkIfIdentity(reduced)) {
-        return nil, "ERROR: Null space is empty";
-    }
     // Rank-Nullity theorem
     size := reduced.N - rank(reduced);
     values := make([][]float64, size);
     index := 0;
     freeColumns := getFreeColumns(reduced);
+    allZeros := true; // Checks if there are free variables
+    for i := 0; i < len(freeColumns); i++ {
+        if (freeColumns[i] != 0) {
+            allZeros = false;
+            break;
+        }
+    }
+    if (allZeros) {
+        return nil, "ERROR: Null space is empty";
+    }
     for i := 0; i < len(freeColumns); i++ {
         arr := make([]float64, m.N);
         for j := 0; j < len(m.rows); j++ {
@@ -48,25 +55,4 @@ func getFreeColumns(m *Matrix) []int {
         }
     }
     return free;
-}
-
-func checkIfIdentity(m *Matrix) bool {
-    if (m.N != m.M) {
-        return false;
-    }
-
-    for i := 0; i < len(m.rows); i++ {
-        for j := 0; j < len(m.rows[i]); j++ {
-            if (i == j) {
-                if (m.rows[i][j] != 1) {
-                    return false;
-                }
-            } else {
-                if (m.rows[i][j] != 0) {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
 }

@@ -17,6 +17,7 @@ var Functions = map[string]bool {
     "col(" : true,
     "row(" : true,
     "null(": true,
+    "Lnull(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -96,6 +97,12 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Parameter must be a valid matrix";
             }
             return null(args);
+        case function == "Lnull":
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil, "ERROR: Parameter must be a valid matrix";
+            }
+            return Lnull(args);
         default:
             return nil, "ERROR: Invalid function call";
         }

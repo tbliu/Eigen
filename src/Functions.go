@@ -19,6 +19,7 @@ var Functions = map[string]bool {
     "null(": true,
     "Lnull(" : true,
     "solve(" : true,
+    "hsolve(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -110,6 +111,12 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Invalid parameters."
             }
             return solve(arg1, arg2);
+        case function == "hsolve":
+            args := paramToMatrix(params);
+            if (args == nil) {
+                return nil, "ERROR: Parameter must be a valid matrix";
+            }
+            return hsolve(args);
         default:
             return nil, "ERROR: Invalid function call";
         }

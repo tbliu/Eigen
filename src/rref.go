@@ -1,9 +1,6 @@
 package src
 
-import (
-    "math"
-)
-
+import "math"
 
 /** Computes the row reduced echelon form of a matrix */
 

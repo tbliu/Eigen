@@ -1,7 +1,5 @@
 package src
 
-//import "fmt"
-
 /** Returns a vector that solves the equation Ax = b */
 func solve(m *Matrix, b *Matrix) (*Matrix, string) {
     aug, err := augment(m, b);

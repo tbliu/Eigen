@@ -5,7 +5,8 @@ package src
 func null(m *Matrix) (*Matrix, string) {
     reduced, _ := rref(m);
     // Rank-Nullity theorem
-    size := reduced.N - rank(reduced);
+    rank := rank(reduced);
+    size := reduced.N - rank;
     values := make([][]float64, size);
     index := 0;
     freeColumns := getFreeColumns(reduced);
@@ -44,7 +45,8 @@ func getFreeColumns(m *Matrix) []int {
             }
         }
     }
-    size := m.N - rank(m);
+    rank := rank(m)
+    size := m.N - rank;
     free := make([]int, size);
     index := 0;
     for i := 0; i < len(m.cols); i++ {

@@ -30,15 +30,32 @@ func eval(query string) string {
     }
 
     if (isFunctionCall(query)) {
-        if (!strings.Contains(query, "=")) {
-            matrix, err := ApplyFunction(query);
-            if (err != "") {
-                return err;
+        funcNameIndex := strings.Index(query, "(");
+        funcName := query[0:funcNameIndex+1];
+        _, match := Functions[funcName]
+        if (match) {
+            if (!strings.Contains(query, "=")) {
+                matrix, err := ApplyFunction(query);
+                if (err != "") {
+                    return err;
+                }
+                return Print(matrix);
+            } else {
+                return assignVariable(query);
             }
-            return Print(matrix);
         }
-
-        return assignVariable(query);
+        _, match = IntFunctions[funcName]
+        if (match) {
+            if (!strings.Contains(query, "=")) {
+                val, err := ApplyIntFunction(query);
+                if (err != "") {
+                    return err;
+                }
+                return strconv.Itoa(val);
+            } else {
+                return assignVariable(query);
+            }
+        }
     }
 
     if (containsMatrix(query)) {

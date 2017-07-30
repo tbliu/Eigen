@@ -29,7 +29,8 @@ func isFunctionCall(query string) bool {
     funcNameIndex := strings.Index(query, "(");
     funcName := query[0:funcNameIndex+1];
     _, match := Functions[funcName];
-    if (!match) {
+    _, match2 := IntFunctions[funcName];
+    if (!match && !match2) {
         return false;
     }
     return true;

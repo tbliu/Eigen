@@ -56,6 +56,18 @@ func eval(query string) string {
                 return assignVariable(query);
             }
         }
+        _, match = FloatFunctions[funcName];
+        if (match) {
+            if (!strings.Contains(query, "=")) {
+                val, err := ApplyFloatFunction(query);
+                if (err != "") {
+                    return err;
+                }
+                return strconv.FormatFloat(val, 'f', -1, 64);
+            } else {
+                return assignVariable(query);
+            }
+        }
     }
 
     if (containsMatrix(query)) {

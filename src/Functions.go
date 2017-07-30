@@ -30,7 +30,8 @@ func isFunctionCall(query string) bool {
     funcName := query[0:funcNameIndex+1];
     _, match := Functions[funcName];
     _, match2 := IntFunctions[funcName];
-    if (!match && !match2) {
+    _, match3 := FloatFunctions[funcName];
+    if (!match && !match2 && !match3) {
         return false;
     }
     return true;

@@ -88,15 +88,44 @@ func assignVariable(query string) string {
         return "ERROR: Malformed query";
     }
     RHS := query[equalIndex+1:len(query)];
+    LHS := query[0:equalIndex];
+    if (!IsVariable(LHS)) {
+        return "ERROR: Invalid variable name: '" + LHS + "'";
+    }
     if (isFunctionCall(RHS)) {
-        matrix, _ := ApplyFunction(RHS);
-        LHS := query[0:equalIndex];
-        if (!IsVariable(LHS)) {
-            return "ERROR: Invalid variable name: '" + LHS + "'";
+        funcNameIndex := strings.Index(RHS, "(");
+        funcName := RHS[0:funcNameIndex+1]
+        _, match := Functions[funcName];
+        if (match) {
+            matrix, err := ApplyFunction(RHS);
+            if (err != "") {
+                return "ERROR: Cannot assign variable to invalid value";
+            }
+            v := NewVariable("matrix", 0, 0, matrix);
+            Variables[LHS] = v;
+            return "";
         }
-        v := NewVariable("matrix", 0, 0, matrix);
-        Variables[LHS] = v;
-        return "";
+        _, match = IntFunctions[funcName];
+        if (match) {
+            val, err := ApplyIntFunction(RHS);
+            if (err != "") {
+                return "ERROR: Cannot assign variable to invalid value";
+            }
+            v := NewVariable("int", val, 0.0, nil);
+            Variables[LHS] = v;
+            return ""
+        }
+
+        _, match = FloatFunctions[funcName];
+        if (match) {
+            val, err := ApplyFloatFunction(RHS);
+            if (err != "") {
+                return "ERROR: Cannot assign variable to invalid value";
+            }
+            v := NewVariable("float", 0, val, nil);
+            Variables[LHS] = v;
+            return "";
+        }
     }
     if (containsMatrix(RHS)) {
         count := CountAny(query, "+", "~", "*", "/");
@@ -128,7 +157,7 @@ func assignVariable(query string) string {
     if (len(args) < 2) {
         return "ERROR: Malformed query";
     }
-    LHS := args[0];
+    LHS = args[0];
     RHS = args[1];
     if (!IsVariable(LHS)) {
         return "ERROR: Invalid variable name: '" + LHS + "'";

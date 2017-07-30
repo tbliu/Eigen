@@ -27,7 +27,7 @@ func Get(v Variable) string {
     } else if (v.class == "int") {
         return strconv.Itoa(v.intVal);
     } else {
-        return strconv.FormatFloat(v.floatVal, 'f', 2, 64);
+        return strconv.FormatFloat(v.floatVal, 'f', -1, 64);
     }
 }
 
@@ -35,7 +35,7 @@ func ToString(v Variable) string {
     if (v.class == "int") {
         return strconv.Itoa(v.intVal);
     } else if (v.class == "float") {
-        return strconv.FormatFloat(v.floatVal, 'f', 2, 64);
+        return strconv.FormatFloat(v.floatVal, 'f', -1, 64);
     } else {
         return Print(v.matrix);
     }

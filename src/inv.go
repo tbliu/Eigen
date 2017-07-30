@@ -8,8 +8,9 @@ func inv(m *Matrix) (*Matrix, string) {
     }
 
     original := copyMatrix(m);
-    if (checkIfZeroMatrix(original)) {
-        return nil, "ERROR: Matrix must be full rank";
+    det, _ := det(original);
+    if (det == 0) {
+        return nil, "ERROR: Matrix is not invertible";
     }
 
     inverse, _ := id(m.N);
@@ -19,9 +20,6 @@ func inv(m *Matrix) (*Matrix, string) {
         inverse.rows[i] = scaleRow(inverse.rows[i], factor);
         row := original.rows[i];
         pivotIndex := getPivotIndex(row);
-        if (pivotIndex == -1) {
-            return nil, "ERROR: Matrix must be full rank";
-        }
 
         for j := 0; j < len(original.rows); j++ {
             if (i == j || original.rows[j][pivotIndex] == 0) {

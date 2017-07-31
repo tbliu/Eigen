@@ -5,6 +5,7 @@ package src
 var IntFunctions = map[string]bool {
     "rank(" : true,
     "nullity(" : true,
+    "gcd(" : true,
 }
 
 func ApplyIntFunction(query string) (int, string) {
@@ -25,6 +26,12 @@ func ApplyIntFunction(query string) (int, string) {
                 return 0, "ERROR: Parameter must be a valid matrix";
             }
             return nullity(args), "";
+        case function == "gcd":
+            args := splitParams(params);
+            if (args == nil) {
+                return 0, "ERROR: Parameter must be an int";
+            }
+            return gcd(args[0], args[1]);
         default:
             return 0, "ERROR: Invalid function call";
     }

@@ -30,17 +30,29 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
     4. Use `]` to denote the end of the end of the matrix.
 2. Example:
     * `[1, 2; -3, 1]` creates the matrix: <br />
-    ![alt text](https://github.com/tbliu/Eigen/blob/master/images/matrix_example.png "Matrix 1");
+    ![alt text](https://github.com/tbliu/Eigen/blob/master/assets/images/matrix_example_3x3.jpg.png "Example matrix");
 3. You can also assign matrices to variables: 
     * `x = [1, 2; -3, 1]` creates the same matrix as above, and assigns it to the variable `x`.
     
 ### Matrix Operations
-Coming soon!
+* col(A)
+* det(A)
+* id(N)
+* inv(A)
+* Lnull(A)
+* null(A)
+* nullity(A)
+* rank(A)
+* row(A)
+* rref(A)
+* solve(A, b)
+* transpose(A)
+* zeros(N), zeros(N, M)
 
 ### Modular arithmetic operations
 Coming soon!
 
 ## Install
-1. [Install Go](https://golang.org/dl/) (if you have Homebrew on macOS, you can run `brew install go`)
-2. Download this repository
-3. Run `go run Main.go`
+1. [Install Go](https://golang.org/dl/)
+2. `$ git clone https://github.com/tbliu/Eigen`
+3. `$ go run Main.go`

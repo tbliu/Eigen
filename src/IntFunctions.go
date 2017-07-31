@@ -31,6 +31,10 @@ func ApplyIntFunction(query string) (int, string) {
             if (args == nil) {
                 return 0, "ERROR: Parameter must be an int";
             }
+
+            if (len(args) != 2) {
+                return 0, "ERROR: gcd must take two inputs";
+            }
             return gcd(args[0], args[1]);
         default:
             return 0, "ERROR: Invalid function call";

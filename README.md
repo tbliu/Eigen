@@ -2,20 +2,15 @@
 Eigen is a simple CLI that performs matrix and vector operations, modular arithmetic, and basic arithmetic. 
 Eigen is currently a work in progress, so feel free to report any bugs or let me know if you have any suggestions for the program!
 
-## Documentation
-### Basic Commands
-1. `exit` exits the interface.
-2. `clear` clears the terminal window.
-3. `clean` removes all variables you have declared so far. 
+## Documentation 
 
 ### Arithmetic
 1. Use `+,-,/,*` to perform basic arithmetic in Eigen as you would normally.
   * Eigen supports arithmetic for floating point digits as well as integers
-  * Whitespace does not matter: `2+2` is the same as `2 + 2`
   
 ### Variable assignment
 1. Use `=` to assign a variable to a value.
-2. Valid value types are: `int, float, matrix`
+2. Valid value types are: `int, float64, *Matrix`
 3. Variable names follow traditional rules:
   * The first character cannot be a number
   * All other characters can be either numbers or letters
@@ -59,8 +54,12 @@ Coming soon!
 Command                              | Description                                                    | Return type
 ------------------------------------ | -------------                                                  | --------------
 `gcd(x int, y int)`                  | Returns the greatest common divisor of x and y                 | int
+`exit`                               | Exits the program                                              | None
+`clear`                              | Clears the terminal window                                     | None
+`clean`                              | Removes all variable assignments                               | None
 
 ## Install
 1. [Install Go](https://golang.org/dl/)
 2. `$ git clone https://github.com/tbliu/Eigen`
-3. `$ go run Main.go`
+3. `$ cd Eigen`
+4. `$ go run Main.go`

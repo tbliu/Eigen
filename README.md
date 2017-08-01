@@ -32,7 +32,7 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
     * `[1, 2, 1; 4, 3, 1; 0, 2, 1]` creates the matrix: <br />
     ![alt text](https://github.com/tbliu/Eigen/blob/master/assets/images/matrix_example_3x3.jpg.png "Example matrix");
 3. You can also assign matrices to variables: 
-    * `x = [1, 2; -3, 1]` creates the same matrix as above, and assigns it to the variable `x`.
+    * `x = [1, 2, 1; 4, 3, 1; 0, 2, 1]` creates the same matrix as above, and assigns it to the variable `x`.
     
 ### Matrix Operations
 Command                              | Description                                                    | Return type

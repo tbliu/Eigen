@@ -35,19 +35,22 @@ Eigen is currently a work in progress, so feel free to report any bugs or let me
     * `x = [1, 2; -3, 1]` creates the same matrix as above, and assigns it to the variable `x`.
     
 ### Matrix Operations
-* col(A)
-* det(A)
-* id(N)
-* inv(A)
-* Lnull(A)
-* null(A)
-* nullity(A)
-* rank(A)
-* row(A)
-* rref(A)
-* solve(A, b)
-* transpose(A)
-* zeros(N), zeros(N, M)
+Command                              | Description                                                    | Return type
+------------------------------------ | -------------                                                  | --------------
+`col(A *Matrix)`                     | Returns a matrix B whose columns span the column space of A    | Matrix
+`det(A *Matrix)`                     | Returns the determinant of a square matrix A                   | float64
+`id(N int)`                          | Returns the NxN identity matrix                                | Matrix
+`inv(A *Matrix)`                     | Returns the inverse of a square matrix A                       | Matrix
+`Lnull(A *Matrix)`                   | Returns a matrix B whose columns span the left null space of A | Matrix
+`null(A *Matrix)`                    | Returns a matrix B whose columns span the null space of A      | Matrix
+`nullity(A *Matrix)`                 | Returns the dimension of the null space of A                   | int
+`rank(A *Matrix)`                    | Returns the dimension of the column space of A                 | int
+`row(A *Matrix)`                     | Returns a matrix B whose columns span the row space of A       | Matrix
+`rref(A *Matrix)`                    | Returns the reduced row echelon form of a matrix A             | Matrix
+`solve(A *Matrix, b *Matrix)`        | Returns the vector x that solves the system of equations Ax=b  | Matrix (vector) 
+`transpose(A *Matrix)`               | Returns the transpose of a matrix A                            | Matrix
+`zeros(N)`                           | Returns the NxN zero matrix                                    | Matrix
+`zeros(N, M)`                        | Returns the NxM zero matrix                                    | Matrix
 
 ### Modular arithmetic operations
 Coming soon!

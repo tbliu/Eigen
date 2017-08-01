@@ -55,6 +55,11 @@ Command                              | Description                              
 ### Modular arithmetic operations
 Coming soon!
 
+### Miscellaneous Operations
+Command                              | Description                                                    | Return type
+------------------------------------ | -------------                                                  | --------------
+`gcd(x int, y int)`                  | Returns the greatest common divisor of x and y                 | int
+
 ## Install
 1. [Install Go](https://golang.org/dl/)
 2. `$ git clone https://github.com/tbliu/Eigen`

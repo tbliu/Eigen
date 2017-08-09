@@ -5,6 +5,7 @@ import (
     "fmt"
     "os"
     "./src"
+    "strings"
     //"strconv"
 )
 
@@ -13,6 +14,8 @@ const PROMPT = "> ";
 const CLEAR = "\x1b[3;J\x1b[H\x1b[2J"; // Clears terminal screen
 const CLEAN = "clean";
 const WELCOME = "___________________\n< Welcome to Eigen! >\n-------------------\n       \\   ^__^\n        \\  (oo)\\_______\n           (__)\\       )\\/\\\n               ||----w |\n               ||     ||"
+const RED = "\033[0;31m";
+const WHITE = "\033[0m";
 
 func main() {
     fmt.Println(WELCOME);
@@ -33,7 +36,11 @@ func main() {
             if (result == "") {
                 fmt.Print(result)
             } else {
-                fmt.Println(result);
+                if (strings.Contains(result, "ERROR")) {
+                    fmt.Println(RED + result + WHITE); // Prints error message in red
+                } else {
+                    fmt.Println(result);
+                }
             }
         }
         fmt.Print(PROMPT);

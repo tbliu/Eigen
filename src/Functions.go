@@ -21,6 +21,7 @@ var Functions = map[string]bool {
     "solve(" : true,
     "hsolve(" : true,
     "llse(" : true,
+    "proj(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -126,6 +127,12 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Invalid parameters";
             }
             return llse(arg1, arg2);
+        case function == "proj":
+            arg1, arg2 := splitMatrices(params);
+            if (arg1 == nil || arg2 == nil) {
+                return nil, "ERROR: Invalid parameters";
+            }
+            return proj(arg1, arg2);
         default:
             return nil, "ERROR: Invalid function call";
         }

@@ -58,6 +58,7 @@ Command                              | Description                              
 `dot(v *Vector, w *Vector)`          | Returns the dot products of vector v and vector w              | float64
 `orth(v *Vector, w *Vector)`         | Returns 1 if v and w are orthogonal. 0 otherwise               | int
 `llse(A *Matrix, b *Vector)`         | Returns the linear least squares estimate of `x` in `Ax=b`     | Vector
+`proj(v *Vector, w *Vector)`         | Returns the projection of the vector w onto the vector v       | Vector
 
 ### Miscellaneous Operations
 Command                              | Description                                                    | Return type
@@ -71,3 +72,9 @@ Command                              | Description                              
 
 ### Modular arithmetic operations
 Coming soon!
+
+### List of Known Bugs 
+1. Incomplete arithmetic queries (ex: `3*`) cause Eigen to panic (Index out of range error)
+2. There are some bugs with matrix operations when not using variables (ex: [3,2] \* [3,1;1,2] returns an ERROR message. But assigning A=[3,2] and B = [3,1;1,2] and doing A\*B works).
+3. Changing color to white after a red error message might make text invisible to people with white terminal backgrounds. Fix so it gets default terminal color
+4. When subtracting with negative numbers, Eigen sometimes processes a negative number as a variable (ex: -3-4 returns "ERROR: Invalid variable '-3'")

@@ -59,6 +59,13 @@ Command                              | Description                              
 `orth(v *Vector, w *Vector)`         | Returns 1 if v and w are orthogonal. 0 otherwise               | int
 `llse(A *Matrix, b *Vector)`         | Returns the linear least squares estimate of `x` in `Ax=b`     | Vector
 `proj(v *Vector, w *Vector)`         | Returns the projection of the vector w onto the vector v       | Vector
+`gs(A *Matrix)`                      | Orthonormalizes the columns of A                               | Matrix
+`qr(A *Matrix, tag string)`          | Performs QR decomposition on A. If tag == 'q', Q. If tag == 'r', return R. Quotes are not necessary. | Matrix 
+`norm(v *Vector)`                    | Returns a vector w, which is the normalized version of v       | Vector
+`roll(v *Vector, N int)`             | Returns a vector w, whose values are the same as v's, shifted by N places | Vector
+`xcorr(v *Vector, w *Vector)`        | Returns the cross-correlation of w with respect to v           | Vector
+`autocorr(v *Vector)`                | Returns the auto-correlation of v                              | Vector
+
 
 ### Miscellaneous Operations
 Command                              | Description                                                    | Return type

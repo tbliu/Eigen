@@ -4,6 +4,9 @@ package src
 */
 
 func llse(A *Matrix, b *Matrix) (*Matrix, string) {
+    if (b.N != 1) {
+        return nil, "ERROR: b must be a valid vector";
+    }
     Atrans, e := transpose(A);
     if (e != "") {
         return nil, "ERROR: Invalid matrix";
@@ -14,5 +17,7 @@ func llse(A *Matrix, b *Matrix) (*Matrix, string) {
         return nil, "ERROR: Invalid matrix";
     }
 
-    return mulMatrices(mulMatrices(inverse, Atrans), b), "";
+    xhat := mulMatrices(inverse, mulMatrices(Atrans, b));
+    round(xhat);
+    return xhat, ""
 }

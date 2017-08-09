@@ -20,6 +20,7 @@ var Functions = map[string]bool {
     "Lnull(" : true,
     "solve(" : true,
     "hsolve(" : true,
+    "llse(" : true,
 }
 
 func isFunctionCall(query string) bool {
@@ -119,6 +120,12 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Parameter must be a valid matrix";
             }
             return hsolve(args);
+        case function == "llse":
+            arg1, arg2 := splitMatrices(params);
+            if (arg1 == nil || arg2 == nil) {
+                return nil, "ERROR: Invalid parameters";
+            }
+            return llse(arg1, arg2);
         default:
             return nil, "ERROR: Invalid function call";
         }

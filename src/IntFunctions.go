@@ -6,6 +6,7 @@ var IntFunctions = map[string]bool {
     "rank(" : true,
     "nullity(" : true,
     "gcd(" : true,
+    "orth(": true,
 }
 
 func ApplyIntFunction(query string) (int, string) {
@@ -36,6 +37,12 @@ func ApplyIntFunction(query string) (int, string) {
                 return 0, "ERROR: gcd must take two inputs";
             }
             return gcd(args[0], args[1]);
+        case function == "orth":
+            arg1, arg2 := splitMatrices(params);
+            if (arg1 == nil || arg2 == nil) {
+                return 0, "ERROR: Invalid vectors";
+            }
+            return orth(arg1, arg2);
         default:
             return 0, "ERROR: Invalid function call";
     }

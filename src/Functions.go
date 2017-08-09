@@ -22,6 +22,12 @@ var Functions = map[string]bool {
     "hsolve(" : true,
     "llse(" : true,
     "proj(" : true,
+    "norm(" : true,
+    "gs(" : true,
+    "qr(" : true,
+    "roll(": true,
+    "xcorr(": true,
+    "autocorr(": true,
 }
 
 func isFunctionCall(query string) bool {
@@ -133,6 +139,42 @@ func ApplyFunction(query string) (*Matrix, string) {
                 return nil, "ERROR: Invalid parameters";
             }
             return proj(arg1, arg2);
+        case function == "norm":
+            arg := paramToMatrix(params);
+            if (arg == nil) {
+                return nil, "ERROR: Invalid parameter";
+            }
+            return norm(arg);
+        case function == "gs":
+            arg := paramToMatrix(params);
+            if (arg == nil) {
+                return nil, "ERROR: Invalid parameter";
+            }
+            return gs(arg);
+        case function == "qr":
+            arg1, arg2 := splitTag(params);
+            if (arg1 == nil) {
+                return nil, "ERROR: Invalid parameters";
+            }
+            return qr(arg1, arg2);
+        case function == "roll":
+            arg1, arg2 := splitInt(params);
+            if (arg1 == nil) {
+                return nil, "ERROR: Invalid parameters";
+            }
+            return roll(arg1, arg2);
+        case function == "xcorr":
+            arg1, arg2 := splitMatrices(params);
+            if (arg1 == nil || arg2 == nil) {
+                return nil, "ERROR: Invalid parameters";
+            }
+            return xcorr(arg1, arg2);
+        case function == "autocorr":
+            arg := paramToMatrix(params);
+            if (arg == nil) {
+                return nil, "ERROR: Invalid parameter";
+            }
+            return autocorr(arg);
         default:
             return nil, "ERROR: Invalid function call";
         }
@@ -179,4 +221,27 @@ func splitMatrices(params string) (*Matrix, *Matrix) {
     mat2 := paramToMatrix(oldArgs[1]);
     return mat1, mat2;
 
+}
+
+func splitTag(params string) (*Matrix, string) {
+    oldArgs := strings.Split(params, ",");
+    if (len(oldArgs) != 2) {
+        return nil, "";
+    }
+    matrix := paramToMatrix(oldArgs[0]);
+    tag := oldArgs[1];
+    return matrix, tag;
+}
+
+func splitInt(params string) (*Matrix, int) {
+    oldArgs := strings.Split(params, ",");
+    if (len(oldArgs) != 2) {
+        return nil, 0;
+    }
+    matrix := paramToMatrix(oldArgs[0]);
+    n, e := strconv.Atoi(oldArgs[1]);
+    if (e != nil) {
+        return nil, 0;
+    }
+    return matrix, n;
 }

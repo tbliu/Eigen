@@ -149,6 +149,8 @@ func replaceSubtraction(query string) string {
         // If prev byte is an operator, current byte must be a number
         replaced := []string{string(query[0]), replaceSubtraction(query[1:len(query)])};
         return strings.Join(replaced, "");
+    } else if (string(query[firstInst-1]) == "(") {
+        return query;
     } else {
         return query;
     }

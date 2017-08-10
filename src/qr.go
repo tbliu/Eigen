@@ -22,6 +22,7 @@ func qr(A *Matrix, tag string) (*Matrix, string) {
             Rvals[i] = column;
         }
         Rtrans, _ := NewMatrix(Rvals);
+        round(Rtrans);
         return transpose(Rtrans);
     }
 }

@@ -66,7 +66,7 @@ Command                              | Description                              
 `xcorr(v *Vector, w *Vector)`        | Returns the cross-correlation of w with respect to v           | Vector
 `autocorr(v *Vector)`                | Returns the auto-correlation of v                              | Vector
 
-### Modular arithmetic operations
+### Modular Arithmetic Operations
 Command                              | Description                                                    | Return type
 ------------------------------------ | -------------                                                  | --------------
 `mod(x int, m int)`                  | Returns x modulo m                                             | int

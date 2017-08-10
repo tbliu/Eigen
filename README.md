@@ -66,6 +66,12 @@ Command                              | Description                              
 `xcorr(v *Vector, w *Vector)`        | Returns the cross-correlation of w with respect to v           | Vector
 `autocorr(v *Vector)`                | Returns the auto-correlation of v                              | Vector
 
+### Modular arithmetic operations
+Command                              | Description                                                    | Return type
+------------------------------------ | -------------                                                  | --------------
+`mod(a int, m int)`                  | Returns a modulo m                                             | int
+`modexp(x int, y int, m int)`        | Returns x to the power of y modulo m. Uses repeated squaring, so this function works well with large ints. | int
+`modinv(a int, m int)`               | Returns the inverse of a modulo m.                             | int
 
 ### Miscellaneous Operations
 Command                              | Description                                                    | Return type
@@ -75,10 +81,6 @@ Command                              | Description                              
 `exit`                               | Exits the program                                              | None
 `clear`                              | Clears the terminal window                                     | None
 `clean`                              | Removes all variable assignments                               | None
-
-
-### Modular arithmetic operations
-Coming soon!
 
 ### List of Known Bugs 
 1. Incomplete arithmetic queries (ex: `3*`) cause Eigen to panic (Index out of range error)

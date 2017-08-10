@@ -69,9 +69,9 @@ Command                              | Description                              
 ### Modular arithmetic operations
 Command                              | Description                                                    | Return type
 ------------------------------------ | -------------                                                  | --------------
-`mod(a int, m int)`                  | Returns a modulo m                                             | int
+`mod(x int, m int)`                  | Returns x modulo m                                             | int
 `modexp(x int, y int, m int)`        | Returns x to the power of y modulo m. Uses repeated squaring, so this function works well with large ints. | int
-`modinv(a int, m int)`               | Returns the inverse of a modulo m.                             | int
+`modinv(x int, m int)`               | Returns the inverse of x modulo m.                             | int
 
 ### Miscellaneous Operations
 Command                              | Description                                                    | Return type
